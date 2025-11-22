@@ -1,4 +1,4 @@
-## Magazine Articles Python Project
+# Magazine Articles Python Project
 
 This project models a Magazine domain in Python using classes and object-oriented programming.
 It includes Authors, Articles, and magaines.

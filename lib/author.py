@@ -1,52 +1,50 @@
-# author.py
-# Very simple beginner-friendly version
 
 from .article import Article
 
 class Author:
     def __init__(self, name):
-        # Validate the name
+        # name must be a non-empty string; once set it cannot change
         if not isinstance(name, str):
             raise TypeError("Name must be a string.")
         if len(name) < 1:
             raise ValueError("Name must have at least 1 character.")
-
-        # Once set, name cannot change, so we use a normal variable
         self._name = name
 
+    # name is read-only
     @property
     def name(self):
         return self._name
 
-    # Do NOT allow changing the name, so no setter
-
+    # Return all Article instances written by this author
     def articles(self):
-        # Return all articles written by this author
         result = []
-        for article in Article.all:
-            if article.author == self:
-                result.append(article)
+        for a in Article.all:
+            if a.author == self:
+                result.append(a)
         return result
 
+    # Return unique list of Magazine instances this author wrote for
     def magazines(self):
-        # Return list of unique magazines
         mags = []
-        for article in self.articles():
-            if article.magazine not in mags:
-                mags.append(article.magazine)
+        for a in self.articles():
+            if a.magazine not in mags:
+                mags.append(a.magazine)
         return mags
 
+    # Create and return a new Article linked to this author and given magazine/title
     def add_article(self, magazine, title):
-        # Create and return a new Article
-        return Article(self, magazine, title)
+        self.magazine = magazine
+        self.title = title
 
+        return Article
+    # Return unique list of categories (strings) for magazines this author contributed to
+    # Return None if no articles (matches the assignment)
     def topic_areas(self):
         mags = self.magazines()
         if len(mags) == 0:
             return None
-
         categories = []
-        for mag in mags:
-            if mag.category not in categories:
-                categories.append(mag.category)
+        for m in mags:
+            if m.category not in categories:
+                categories.append(m.category)
         return categories
